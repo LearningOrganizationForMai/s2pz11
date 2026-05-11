@@ -114,10 +114,6 @@ db.cur.execute('SET search_path TO public')
 
 TABLE = 'amazon_ecommerce'
 
-print("\n" + "="*60)
-print("  ЧАСТЬ 1: Запросы БЕЗ индексов")
-print("="*60)
-
 times_no_index = {}
 
 times_no_index[1] = timed(
@@ -186,11 +182,6 @@ times_no_index[10] = timed(
                .fetch()
 )
 
-
-print("\n\n" + "="*60)
-print("  Создаём индексы...")
-print("="*60)
-
 indexes = [
     f"CREATE INDEX IF NOT EXISTS idx_category        ON {TABLE}(category)",
     f"CREATE INDEX IF NOT EXISTS idx_rating          ON {TABLE}(rating)",
@@ -210,12 +201,7 @@ for sql in indexes:
     db.cur.execute(sql)
     db.con.commit()
     elapsed = (time.perf_counter() - start) * 1000
-    print(f"  Индекс idx_{name:<20} создан за {elapsed:.1f} мс")
-
-
-print("\n\n" + "="*60)
-print("  ЧАСТЬ 2: Запросы С индексами")
-print("="*60)
+    print(f"Индекс idx_{name:<20} создан за {elapsed:.1f} мс")
 
 times_with_index = {}
 
@@ -285,12 +271,6 @@ times_with_index[10] = timed(
                .fetch()
 )
 
-
-print("\n\n" + "="*60)
-print("  ИТОГ: сравнение времени выполнения (мс)")
-print("="*60)
-print(f"{'№':<5} {'Без индекса':>14} {'С индексом':>12} {'Ускорение':>12}")
-print("-"*45)
 for i in range(1, 11):
     t1 = times_no_index[i]
     t2 = times_with_index[i]
