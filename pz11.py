@@ -98,7 +98,6 @@ def timed(label, fn):
     start = time.perf_counter()
     result = fn()
     elapsed = (time.perf_counter() - start) * 1000
-    print(f"\n{'='*60}")
     print(f"[{label}]  {elapsed:.2f} мс")
     if isinstance(result, list):
         for row in result[:3]:
